@@ -8,3 +8,5 @@ Compilation follows these steps:
 - Generation
 - Compilation, Linking, etc... (depends on backend)
 - Optionally Execution
+
+The C++ backend can use either Boehms, shared_ptrs, or Ravenbrook MPS.
