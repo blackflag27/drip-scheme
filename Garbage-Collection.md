@@ -7,3 +7,5 @@
  - Ravenbrook's MPS, (many variations are supported through this library, I think
  - Maybe someday stalin style lifetime/data flow analysis
  - Optional boost memory pools in conjunction with one of the above methods
+
+The lua backend uses lua's builtin garbage collector
