@@ -1,0 +1,277 @@
+OPTION A: Really Pretty but Really Complicated Tree Diagrams
+
+(let ((foo 1) (bar 2)) (+ foo bar))
+
+Fancy
+
+let
+|\
+| +
+| |\
+| | \
+| |  \
+| foo bar
+|_____
+|     |
+|\    |\
+| \   | \
+|  \  |  \
+foo 1 bar 2
+
+let
+|\
+|_
+| |
+|  \
+foo 1
+
+
+Basic Structure
+
+Extend to add other branches
+Extend down each line to add other branches at the appropriate spots
+
+let
+|\
+| +
+| |\
+| | \
+| |  \
+| foo bar
+|_____
+|     |
+|\    |\
+| \   | \
+|  \  |  \
+foo 1 bar 2
+
+Add atoms
+
+Bottom Up Make each part line up with the line below it
+inserting spaces or _ as necessary
+insert space when something that shouldn't be connected is
+2 for a \ and 1 for |
+
+Add other branch before top?
+
+adding other branch left right top down
+
+How to determine what line atoms should be on?
+
+let
+|\
+| +
+| |\
+| | \
+| |  \
+| foo bar
+|_____
+|     |
+|\    |\
+| \   | \
+|  \  |  \
+foo 1 bar 2
+
+
+Insert Atoms
+Make sure atoms are either begin in the same column or alternate columns
+with a space in between
+
+
+Top Down. Add lines to match things up.
+
+Then some type of compression
+
+(let
+  ((op (lambda (x) (if (= x 1) + -)))
+   (x 1)
+   (y 2))
+  ((op x) x y)
+  ((op y) x y))
+
+let
+|__________________________
+|                 |        |
+|_____________    |______  |______
+|         |   |   |    | | |    | |
+|\        |   |   |    | | |    | |
+| \       |   |   |\   | | |\   | |
+|  \      |\  |\  | \  | | | \  | |
+op lambda x 1 y 2 op x x y op y x y
+   !\
+   x if
+     |___
+	 | | |
+	 = + -
+	 |\
+	 x 1
+
+(let ((x 7) (y (+ 3 (/ 6 3))) (z (sqrt 9)))
+    (* (/ z (- x y)) x))
+
+let
+|\
+| *
+| |\
+| / x
+| |\
+| z -
+|   |\
+|   x y
+|___________
+|   |       |
+|\  |\      |\
+              |\
+			  | \
+			  |  \
+x 7 y +     z |   \
+      |\      sqrt 9
+      3 /
+	    |\
+		6 3
+
+let
+|\
+| *
+| |\
+| / x
+| |\
+| z -
+|   |\
+|   x y
+|___________           
+|   |       |         
+|\  |\      |
+x 7 y +     z 
+      |\    |
+	  3 /   |\ 
+	    |\  | \ 
+		6 3 |  \
+            |   \
+            sqrt 9
+
+Possible permutations of atom and list for 5 length max lists
+
+empty list -> 0
+list of one thing -> !
+list of two things -> |\
+list of two lists -> |_
+                     | |
+list of atom two things -> atom
+                           |\
+list of atom any things -> atom
+                           |___*
+					       | | | |*
+list of many things -> |_____*
+                       | | | |*
+atoms should be written where they go so hopefully for the followin
+sexps the algorithm should output these graphs
+the algorithm produces graphs that are squished to the left vertically
+which may be displeasing but is generally the best idea.
+
+(let ((foo 1) (bar 2)) (+ foo bar))
+
+let
+|\
+| +
+| |\
+| | \
+| |  \
+| foo bar
+|_____
+|     |
+|\    |\
+| \   | \
+|  \  |  \
+foo 1 bar 2
+
+  ((op (lambda (x) (if (= x 1) + -)))
+   (x 1)
+   (y 2))
+  ((op x) x y)
+  ((op y) x y))
+
+
+let
+|___
+| | |
+| | |_____
+| | |   | |
+| | |\  | |
+| | | \ x y
+| | op y
+| |_____
+| |   | |
+| |\  | |
+| | \ x y
+| op x
+|_____________
+|         |   |
+|\        |   |
+| \       |\  |\
+op lambda x 1 y 2
+   |\
+   ! if
+   x |___
+	 | | |
+	 = + -
+	 |\
+	 x 1
+
+
+(let ((x 7) (y (+ 3 (/ 6 3))) (z (sqrt 9)))
+    (* (/ z (- x y)) x))
+
+let
+|\
+| *
+| |\
+| / x
+| |\
+| z -
+|   |\
+|   x y
+|_______ 
+|   |   |  
+|\  |\  |\   
+x 7 y + z |\  
+	  |   | \
+	  |   |  \
+	  |   |   \
+	  |\  sqrt 9 
+	  3 /   
+		|\
+		6 3
+
+
+
+(let ((x 1) (a 2) (b '(1 2 3 4)) (c "hello")) (display c)
+  (+ x 2) (display (cdr (b))))
+
+let
+|______________
+| |         |  |
+| |\        |  |\ 
+| | \       |  | \ 
+| |  \      |  |  \ 
+| |   \     |  |   \ 
+| |    \    |  |    \ 
+| |     \   +  |     \  
+| |      \  |  |      \
+| display c |  display |\
+|           |\         | \
+|           x 2        |  \
+|                      cdr !
+|________________          b
+|   |   |        |
+|\  |\  |\       |\
+x 1 a 2 b |      c "hello"
+          |\
+		  | \
+		  |  \
+		  |   \
+		  |    \
+          quote |_____
+		        | | | |
+				1 2 3 4
+          
